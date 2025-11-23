@@ -1,0 +1,32 @@
+<div>
+  <h2>CSV Upload</h2>
+  <label for="fileInput">Datei Auswählen</label>
+  <input
+    id="fileInput"
+    type="file"
+    accept=".CSV"
+    (change)="onFileSelected($event)"
+  />
+
+  <button
+    type="button"
+    (click)="onUpload()"
+    [disabled]="!selectedFile || status === 'uploading'"
+  >
+    {{ status === "uploading" ? "Wird geladen..." : "Hochladen" }}
+  </button>
+
+  @if(status !== 'idle') {
+  <div class="status">
+    @if(status === 'selected') {
+    <p>Datei ausgewählt: {{ selectedFile?.name }}</p>
+    } @if(status === 'uploading'){
+    <p>Datei wird hochgeladen...</p>
+    } @if(status === 'success'){
+    <p>Erfolgreich hochgeladen!</p>
+    } @if(status === 'error'){
+    <p>{{ errorMessage }}</p>
+    }
+  </div>
+  }
+</div>
