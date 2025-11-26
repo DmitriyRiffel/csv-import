@@ -1,0 +1,32 @@
+<h2>Verträge</h2>
+
+<button type="button" (click)="getAllContracts()">Neu laden</button>
+
+@if (loading) {
+<p>Lade Verträge...</p>
+} @if (errorMessage) {
+<p>{{ errorMessage }}</p>
+} @if (!loading && contracts.length > 0) {
+<table>
+  <thead>
+    <tr>
+      <th>Vertragsnummer</th>
+      <th>Beginn</th>
+      <th>Ende</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (c of contracts; track c.contract_number) {
+    <tr>
+      <td>{{ c.contract_number }}</td>
+      <td>{{ c.start_date }}</td>
+      <td>{{ c.end_date || "-" }}</td>
+      <td>{{ c.status }}</td>
+    </tr>
+    }
+  </tbody>
+</table>
+} @else { @if (!loading && !errorMessage) {
+<p>Keine Verträge vorhanden.</p>
+} }

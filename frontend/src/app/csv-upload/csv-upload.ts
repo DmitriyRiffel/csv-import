@@ -25,7 +25,7 @@ export class CsvUpload {
   importedCount: number | null = null;
   backendErrors: UploadResponse['errors'] | null = null;
 
-  private readonly uploadUrl = 'http://localhost:8000/contracts/upload';
+  private readonly requestUrl = 'http://localhost:8000/contracts/upload';
 
   constructor(private http: HttpClient) {}
 
@@ -59,7 +59,7 @@ export class CsvUpload {
     const formData = new FormData();
     formData.append('file', this.selectedFile);
 
-    this.http.post<UploadResponse>(this.uploadUrl, formData).subscribe({
+    this.http.post<UploadResponse>(this.requestUrl, formData).subscribe({
       next: (res) => {
         if (res.success) {
           this.status = 'success';
