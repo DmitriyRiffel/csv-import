@@ -1,10 +1,11 @@
 <div>
   <h2>CSV Upload</h2>
-  <label for="fileInput">Datei Auswählen</label>
+
+  <label for="fileInput">Datei auswählen</label>
   <input
     id="fileInput"
     type="file"
-    accept=".CSV"
+    accept=".csv"
     (change)="onFileSelected($event)"
   />
 
@@ -13,18 +14,22 @@
     (click)="onUpload()"
     [disabled]="!selectedFile || status === 'uploading'"
   >
-    {{ status === "uploading" ? "Wird geladen..." : "Hochladen" }}
+    {{ status === "uploading" ? "Wird hochgeladen..." : "Hochladen" }}
   </button>
 
-  @if(status !== 'idle') {
+  @if (status !== 'idle') {
   <div class="status">
-    @if(status === 'selected') {
+    @if (status === 'selected') {
     <p>Datei ausgewählt: {{ selectedFile?.name }}</p>
-    } @if(status === 'uploading'){
+    } @if (status === 'uploading') {
     <p>Datei wird hochgeladen...</p>
-    } @if(status === 'success'){
-    <p>Erfolgreich hochgeladen!</p>
-    } @if(status === 'error'){
+    } @if (status === 'success') {
+    <p>
+      Erfolgreich hochgeladen! @if (importedCount !== null) {
+      <span> Importierte Zeilen: {{ importedCount }}</span>
+      }
+    </p>
+    } @if (status === 'error') {
     <p>{{ errorMessage }}</p>
     }
   </div>
