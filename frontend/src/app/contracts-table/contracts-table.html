@@ -1,32 +1,147 @@
-<h2>Verträge ({{ contracts.length }})</h2>
+<div class="flex items-start justify-center p-6">
+  <div
+    class="w-full max-w-5xl bg-white rounded-2xl shadow-md border border-slate-200 p-6 space-y-6"
+  >
+    <header class="flex items-center justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-slate-900">
+          Verträge
+        </h2>
+        <p class="text-sm text-slate-500">
+          Aktuell gespeicherte Verträge aus der Datenbank.
+        </p>
+      </div>
 
-<button type="button" (click)="getAllContracts()">Neu laden</button>
-
-@if (loading) {
-<p>Lade Verträge...</p>
-} @if (errorMessage) {
-<p>{{ errorMessage }}</p>
-} @if (!loading && contracts.length > 0) {
-<table>
-  <thead>
-    <tr>
-      <th>Vertragsnummer</th>
-      <th>Beginn</th>
-      <th>Ende</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (c of contracts; track c.contract_number) {
-    <tr>
-      <td>{{ c.contract_number }}</td>
-      <td>{{ c.start_date }}</td>
-      <td>{{ c.end_date || "-" }}</td>
-      <td>{{ c.status }}</td>
-    </tr>
-    }
-  </tbody>
-</table>
-} @else { @if (!loading && !errorMessage) {
-<p>Keine Verträge vorhanden.</p>
-} }
+      <div class="flex items-center gap-3">
+        <div
+          class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700"
+        >
+          Gesamt: <span class="ml-1 font-semibold">{{ contracts.length }}</span>
+        </div>
+        <button
+          type="button"
+          (click)="getAllContracts()"
+          class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 transition-colors disabled:bg-slate-300 disabled:text-slate-500"
+          [disabled]="loading"
+        >
+          @if (loading) {
+          <div class="inline-flex items-center gap-2">
+            <span
+              class="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin"
+            ></span>
+            Lädt...
+          </div>
+          } @else {
+          <span>Neu laden</span>
+          }
+        </button>
+        <button
+          type="button"
+          (click)="deleteAllContracts()"
+          class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white bg-red-700 hover:bg-red-800 active:bg-sky-800 transition-colors disabled:bg-slate-300 disabled:text-slate-500"
+          [disabled]="loading"
+        >
+          <span>Tabelle leeren</span>
+        </button>
+      </div>
+    </header>
+    @if (loading) {
+    <div
+      class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 flex items-center gap-2"
+    >
+      <span
+        class="h-3 w-3 rounded-full bg-sky-500 animate-pulse shadow-[0_0_0_4px_rgba(56,189,248,0.25)]"
+      ></span>
+      <span>Lade Verträge...</span>
+    </div>
+    } @if (errorMessage) {
+    <div
+      class="rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+    >
+      {{ errorMessage }}
+    </div>
+    } @if (!loading && contracts.length > 0) {
+    <div class="rounded-xl border border-slate-200 overflow-hidden">
+      <div class="max-h-[60vh] overflow-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                Vertragsnummer
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                Beginn
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                Ende
+              </th>
+              <th
+                class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white">
+            @for (c of contracts; track c.contract_number) {
+            <tr class="hover:bg-slate-50 transition-colors">
+              <td class="px-4 py-3 font-mono text-xs text-slate-800">
+                {{ c.contract_number }}
+              </td>
+              <td class="px-4 py-3 text-slate-800">
+                {{ c.start_date }}
+              </td>
+              <td class="px-4 py-3 text-slate-800">
+                {{ c.end_date || "-" }}
+              </td>
+              <td class="px-4 py-3">
+                @switch (c.status) { @case ('aktiv') {
+                <div
+                  class="inline-flex items-center px-2.5 py-1 text-xs rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 gap-x-2"
+                >
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  <div>AKTIV</div>
+                </div>
+                } @case ('gekündigt') {
+                <div
+                  class="inline-flex items-center px-2.5 py-1 text-xs rounded-full bg-amber-50 text-amber-700 border border-amber-200 gap-x-2"
+                >
+                  <span class="w-2 h-2 rounded-full bg-amber-700"></span>
+                  <div>GEKÜNDIGT</div>
+                </div>
+                } @case ('abgelaufen') {
+                <div
+                  class="inline-flex items-center px-2.5 py-1 text-xs rounded-full bg-slate-100 text-slate-700 border border-slate-200 gap-x-2"
+                >
+                  <span class="w-2 h-2 rounded-full bg-slate-700"></span>
+                  <div>ABGELAUFEN</div>
+                </div>
+                } @default {
+                <div
+                  class="inline-flex items-center rounded-full bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-600 border border-slate-200"
+                >
+                  {{ c.status }}
+                </div>
+                } }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    } @else { @if (!loading && !errorMessage) {
+    <div
+      class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-6 text-sm text-slate-600 text-center"
+    >
+      Es sind aktuell keine Verträge vorhanden.
+    </div>
+    } }
+  </div>
+</div>

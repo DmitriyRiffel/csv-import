@@ -39,4 +39,18 @@ export class ContractsTable {
       },
     });
   }
+
+  deleteAllContracts() {
+    this.loading = true;
+    this.http.delete<Contract[]>(this.requestUrl).subscribe({
+      next: () => {
+        this.contracts = [];
+        this.loading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Fehler beim Löschen von Verträgen';
+        this.loading = false;
+      },
+    });
+  }
 }
