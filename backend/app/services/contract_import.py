@@ -3,6 +3,8 @@ import csv
 from pathlib import Path
 from typing import List, Tuple
 
+from pydantic import ValidationError
+
 from app.schemas.contract import ContractCSV
 
 def validate_csv_file(path: Path) -> Tuple[List[ContractCSV], list]:
@@ -22,12 +24,18 @@ def validate_csv_file(path: Path) -> Tuple[List[ContractCSV], list]:
                 )
                 results.append(contract)
                 
-            except Exception as e:
+
+            except ValidationError as e:
                 error = "; ".join([err["msg"] for err in e.errors()])
                 errors.append({
                     "line": line_number,
                     "contract_number": row["Vertragsnummer"],
                     "error": error,
                 })
+            except KeyError as e: 
+                errors.append({
+                    "error": f"Die Spalte '{e.args[0]}' ist fehlerhaft / fehlt."
+                })
+                break;
 
     return results, errors
