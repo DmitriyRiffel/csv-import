@@ -12,12 +12,12 @@ class ContractCSV(BaseModel):
     def validate_status(cls, value):
         allowed = {"aktiv", "gekündigt", "abgelaufen"}
         if value not in allowed: 
-            raise ValueError(f"Ungültiger Status: {value}. Erlaubt: {allowed}")
+            raise ValueError(f"Ungültiger Status: {value}. Erlaubt: {allowed}!")
         return value
     
     @field_validator("end_date")
     def validate_dates(cls, value, info):
         start_date = info.data.get("start_date") 
         if value and start_date and value < start_date:
-            raise ValueError("end_date darf nicht vor start_date liegen")
+            raise ValueError("Vertragsende darf nicht vor Vertragsbeginn liegen!")
         return value

@@ -23,10 +23,11 @@ def validate_csv_file(path: Path) -> Tuple[List[ContractCSV], list]:
                 results.append(contract)
                 
             except Exception as e:
+                error = "; ".join([err["msg"] for err in e.errors()])
                 errors.append({
                     "line": line_number,
-                    "error": str(e),
-                    "raw": row,
+                    "contract_number": row["Vertragsnummer"],
+                    "error": error,
                 })
 
     return results, errors

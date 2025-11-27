@@ -33,7 +33,24 @@
     </p>
     } @if (status === 'error') {
     <p>{{ errorMessage }}</p>
-    }
+    @if(backendErrors){
+    <div>
+      <h3>Details der Fehler:</h3>
+      <ul>
+        @for (err of backendErrors; track err.line){
+        <li>
+          <p>
+            @if(err.line){
+            <span>Zeile {{ err.line }} / </span>
+            }Vertragsnummer
+            {{ err.contract_number }}:
+            {{ err.error }}
+          </p>
+        </li>
+        }
+      </ul>
+    </div>
+    } }
   </div>
   }
 </div>

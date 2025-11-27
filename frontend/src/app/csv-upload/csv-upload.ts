@@ -6,9 +6,9 @@ interface UploadResponse {
   success: boolean;
   imported: number;
   errors: {
-    line: number;
+    line: number | null;
+    contract_number: string;
     error: string;
-    raw: Record<string, string>;
   }[];
 }
 

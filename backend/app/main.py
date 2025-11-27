@@ -2,7 +2,6 @@ import tempfile
 from fastapi import FastAPI, Depends, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
-from sqlalchemy import false
 from sqlalchemy.orm import Session
 from app.services.contract_import import validate_csv_file
 from .models import Contract
@@ -62,15 +61,18 @@ async def upload_contracts_csv(
         shutil.copyfileobj(file.file, tmp)
 
     valid_rows, errors = validate_csv_file(tmp_path)
+    existing = {
+        c.contract_number
+        for c in db.query(Contract.contract_number).all()
+    }
 
-    if errors: 
-        return {
-            "success": False,
-            "imported": 0,
-            "errors": errors,
-        }
-    
     for c in valid_rows:
+        if c.contract_number in existing:
+            errors.append({
+                "error": f"Vertragsnummer {c.contract_number} existiert bereits",
+            })
+            continue
+
         db_contract = Contract(
             contract_number=c.contract_number,
             start_date=c.start_date,
@@ -80,6 +82,13 @@ async def upload_contracts_csv(
         db.add(db_contract)
 
     db.commit()
+
+    if errors: 
+        return {
+            "success": False,
+            "imported": 0,
+            "errors": errors,
+        }
     
     return {
         "success": True,
