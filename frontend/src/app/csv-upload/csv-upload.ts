@@ -24,6 +24,10 @@ export class CsvUpload {
   errorMessage = '';
   importedCount: number | null = null;
   backendErrors: UploadResponse['errors'] | null = null;
+  /** Start Time of an upload in ms */
+  uploadStartTime: number | null = null;
+  /** Duration Time converted later on in onUpload() into seconds  */
+  uploadDuration: number | null = null;
 
   private readonly requestUrl = 'http://localhost:8000/contracts/upload';
 
@@ -55,6 +59,8 @@ export class CsvUpload {
     this.errorMessage = '';
     this.importedCount = null;
     this.backendErrors = null;
+    this.uploadStartTime = Date.now();
+    this.uploadDuration = null;
 
     const formData = new FormData();
     formData.append('file', this.selectedFile);
@@ -64,6 +70,16 @@ export class CsvUpload {
         if (res.success) {
           this.status = 'success';
           this.importedCount = res.imported;
+
+          if (this.uploadStartTime) {
+            this.uploadDuration = (Date.now() - this.uploadStartTime) / 1000;
+            console.log(
+              'start: ',
+              this.uploadStartTime,
+              ' duration: ',
+              this.uploadDuration
+            );
+          }
         } else {
           this.status = 'error';
           this.backendErrors = res.errors;

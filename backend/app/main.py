@@ -81,7 +81,6 @@ async def upload_contracts_csv(
 
     db.commit()
     
-    print(f"valid_rows: {valid_rows}")
     return {
         "success": True,
         "imported": len(valid_rows),

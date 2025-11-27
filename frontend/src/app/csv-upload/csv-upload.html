@@ -27,7 +27,9 @@
     <p>
       Erfolgreich hochgeladen! @if (importedCount !== null) {
       <span> Importierte Zeilen: {{ importedCount }}</span>
-      }
+      @if(uploadDuration) {
+      <span> Gebrauchte Zeit: {{ uploadDuration }} Sekunden </span>
+      } }
     </p>
     } @if (status === 'error') {
     <p>{{ errorMessage }}</p>
