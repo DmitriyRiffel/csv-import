@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
 interface UploadResponse {
   success: boolean;
   imported: number;
+  not_imported: number;
   errors: {
     line: number | null;
     contract_number: string;
@@ -23,6 +24,7 @@ export class CsvUpload {
   status: 'idle' | 'selected' | 'uploading' | 'success' | 'error' = 'idle';
   errorMessage = '';
   importedCount: number | null = null;
+  notImportedCount: number | null = null;
   backendErrors: UploadResponse['errors'] | null = null;
   /** Start Time of an upload in ms */
   uploadStartTime: number | null = null;
@@ -84,6 +86,10 @@ export class CsvUpload {
           this.status = 'error';
           this.backendErrors = res.errors;
           this.errorMessage = 'Fehler beim Import';
+          this.importedCount = res.imported;
+          this.notImportedCount = res.not_imported;
+          console.log('Imported: ', res.imported);
+          console.log('Not Imported: ', res.not_imported);
         }
       },
       error: (err) => {

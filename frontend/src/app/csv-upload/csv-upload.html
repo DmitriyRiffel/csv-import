@@ -94,7 +94,19 @@
         class="rounded-lg bg-rose-50 border border-rose-200 px-4 py-3 text-sm text-rose-800 space-y-2"
       >
         <p class="font-semibold">{{ errorMessage }}</p>
-
+        <div class="flex flex-col">
+          @if (importedCount !== null) {
+          <span
+            >Importierte Zeilen:
+            <span class="font-semibold">{{ importedCount }}</span>
+          </span>
+          } @if (notImportedCount !== null) {
+          <span
+            >Fehlerhafte Zeilen:
+            <span class="font-semibold">{{ notImportedCount }}</span>
+          </span>
+          }
+        </div>
         @if (backendErrors) {
         <div class="mt-2 space-y-2">
           <ul class="max-h-52 overflow-auto space-y-1 pr-1">
