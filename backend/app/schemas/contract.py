@@ -21,3 +21,13 @@ class ContractCSV(BaseModel):
         if value and start_date and value < start_date:
             raise ValueError("Vertragsende darf nicht vor Vertragsbeginn liegen!")
         return value
+    
+
+class ContractResponse(BaseModel):
+    contract_number : str
+    start_date: date
+    end_date: Optional[date] = None
+    status: str
+
+    class Config:
+        orm_mode = True

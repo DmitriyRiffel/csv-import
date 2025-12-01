@@ -69,19 +69,12 @@ export class CsvUpload {
 
     this.http.post<UploadResponse>(this.requestUrl, formData).subscribe({
       next: (res) => {
+        if (this.uploadStartTime) {
+          this.uploadDuration = (Date.now() - this.uploadStartTime) / 1000;
+        }
         if (res.success) {
           this.status = 'success';
           this.importedCount = res.imported;
-
-          if (this.uploadStartTime) {
-            this.uploadDuration = (Date.now() - this.uploadStartTime) / 1000;
-            console.log(
-              'start: ',
-              this.uploadStartTime,
-              ' duration: ',
-              this.uploadDuration
-            );
-          }
         } else {
           this.status = 'error';
           this.backendErrors = res.errors;
