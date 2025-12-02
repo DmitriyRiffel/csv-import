@@ -36,7 +36,7 @@
           type="button"
           (click)="deleteAllContracts()"
           class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white bg-red-700 hover:bg-red-800 active:bg-sky-800 transition-colors disabled:bg-slate-300 disabled:text-slate-500"
-          [disabled]="loading"
+          [disabled]="loading || contracts.length === 0"
         >
           <span>Tabelle leeren</span>
         </button>

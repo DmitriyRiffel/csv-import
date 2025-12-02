@@ -119,7 +119,7 @@
         @if (backendErrors) {
         <div class="mt-2 space-y-2">
           <ul class="max-h-52 overflow-auto space-y-1 pr-1">
-            @for (err of backendErrors; track err.line) {
+            @for (err of backendErrors; track $index) {
             <li
               class="rounded-md bg-white/60 px-3 py-2 text-xs text-rose-900 border border-rose-100"
             >

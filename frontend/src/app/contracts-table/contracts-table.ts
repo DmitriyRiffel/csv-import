@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 interface Contract {
   contract_number: string;
@@ -10,11 +11,12 @@ interface Contract {
 
 @Component({
   selector: 'app-contracts-table',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './contracts-table.html',
   styleUrl: './contracts-table.css',
 })
-export class ContractsTable {
+export class ContractsTable implements OnInit {
   private readonly requestUrl = 'http://localhost:8000/contracts';
   constructor(private http: HttpClient) {}
   contracts: Contract[] = [];
@@ -42,7 +44,8 @@ export class ContractsTable {
 
   deleteAllContracts() {
     this.loading = true;
-    this.http.delete<Contract[]>(this.requestUrl).subscribe({
+    this.errorMessage = '';
+    this.http.delete<void>(this.requestUrl).subscribe({
       next: () => {
         this.contracts = [];
         this.loading = false;

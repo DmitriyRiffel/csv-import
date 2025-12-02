@@ -52,6 +52,7 @@ def validate_csv_file(path: Path) -> Tuple[List[ContractCSV], list]:
             except KeyError as e: 
                 # KeyError means a required column header is missing or misspelled.
                 errors.append({
+                    "line": 1,
                     "error": f"Die Spalte '{e.args[0]}' ist fehlerhaft / fehlt."
                 })
                 # Stop processing further rows because the structure is invalid.

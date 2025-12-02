@@ -7,8 +7,8 @@ interface UploadResponse {
   imported: number;
   not_imported: number;
   errors: {
-    line: number | null;
-    contract_number: string;
+    line?: number;
+    contract_number?: string;
     error: string;
   }[];
 }
@@ -16,6 +16,7 @@ interface UploadResponse {
 @Component({
   selector: 'app-csv-upload',
   imports: [CommonModule],
+  standalone: true,
   templateUrl: './csv-upload.html',
   styleUrl: './csv-upload.css',
 })
@@ -49,6 +50,7 @@ export class CsvUpload {
     this.status = 'selected';
     this.errorMessage = '';
     this.importedCount = null;
+    this.notImportedCount = null;
     this.backendErrors = null;
   }
 
@@ -60,6 +62,7 @@ export class CsvUpload {
     this.status = 'uploading';
     this.errorMessage = '';
     this.importedCount = null;
+    this.notImportedCount = null;
     this.backendErrors = null;
     this.uploadStartTime = Date.now();
     this.uploadDuration = null;
