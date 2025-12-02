@@ -16,7 +16,7 @@ ng serve
 
 
 
-Anmerkungen:
+# Anmerkungen:
 Wenn man schon eine Liste bzw. Tabelle mit allen Verträgen darstellt, wäre es natürlich sinnvoll, Infinity-Scroll oder etwas Vergleichbares zu implementieren. Dadurch würden nicht sofort alle Verträge geladen werden, falls es z.B. 100.000 Verträge gibt.
 
 Bei Fehlermeldungen im Frontend ist der Fehlertyp aktuell ebenfalls in der Meldung enthalten (z.B. “Value error, Vertragsende darf nicht vor Vertragsbeginn liegen!” → „Value Error“). Man könnte diesen Teil entfernen, wenn nötig – entweder direkt im Backend oder im Frontend –, damit die Fehlermeldung insgesamt „schöner“ bzw. benutzerfreundlicher wirkt.
