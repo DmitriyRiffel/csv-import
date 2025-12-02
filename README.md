@@ -1,3 +1,4 @@
+How to start the Project:
 # Root
 
 docker compose up -d
@@ -11,6 +12,9 @@ uvicorn app.main:app --reload
 
 npm install
 ng serve
+
+
+
 
 Anmerkungen:
 Wenn man schon eine Liste bzw. Tabelle mit allen Verträgen darstellt, wäre es natürlich sinnvoll, Infinity-Scroll oder etwas Vergleichbares zu implementieren. Dadurch würden nicht sofort alle Verträge geladen werden, falls es z.B. 100.000 Verträge gibt.
